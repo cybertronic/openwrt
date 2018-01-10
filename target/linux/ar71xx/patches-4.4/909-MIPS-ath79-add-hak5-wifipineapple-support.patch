@@ -1,0 +1,60 @@
+diff --git a/target/linux/ar71xx/files/arch/mips/ath79/Kconfig.openwrt b/target/linux/ar71xx/files/arch/mips/ath79/Kconfig.openwrt
+index 58d7e43536..0b6de7762e 100644
+--- a/arch/mips/ath79/Kconfig.openwrt
++++ b/arch/mips/ath79/Kconfig.openwrt
+@@ -1848,6 +1848,29 @@ config ATH79_MACH_QIHOO_C301
+ 	select ATH79_DEV_USB
+ 	select ATH79_NVRAM
+ 
++config ATH79_MACH_PINEAPPLE_NANO
++	bool "Hak5 WiFi Pineapple NANO board support"
++	select SOC_AR933X
++	select ATH79_DEV_ETH
++	select ATH79_DEV_GPIO_BUTTONS
++	select ATH79_DEV_LEDS_GPIO
++	select ATH79_DEV_M25P80
++	select ATH79_DEV_USB
++	select ATH79_DEV_WMAC
++
++config ATH79_MACH_PINEAPPLE_TETRA
++	bool "Hak5 WiFi Pineapple TETRA board support"
++	select SOC_AR934X
++	select PCI
++	select ATH79_DEV_AP9X_PCI if PCI
++	select ATH79_DEV_ETH
++	select ATH79_DEV_GPIO_BUTTONS
++	select ATH79_DEV_LEDS_GPIO
++	select ATH79_DEV_NFC
++	select ATH79_DEV_USB
++	select ATH79_DEV_WMAC
++	select ATH79_DEV_M25P80
++
+ config ATH79_MACH_DAP_2695_A1
+ 	bool "D-Link DAP-2695 rev. A1 support"
+ 	select SOC_QCA955X
+diff --git a/target/linux/ar71xx/files/arch/mips/ath79/Makefile b/target/linux/ar71xx/files/arch/mips/ath79/Makefile
+index 7aee760195..360bec4adc 100644
+--- a/arch/mips/ath79/Makefile
++++ b/arch/mips/ath79/Makefile
+@@ -142,6 +142,8 @@ obj-$(CONFIG_ATH79_MACH_OMY_X1)			+= mach-omy-x1.o
+ obj-$(CONFIG_ATH79_MACH_ONION_OMEGA)		+= mach-onion-omega.o
+ obj-$(CONFIG_ATH79_MACH_PB42)			+= mach-pb42.o
+ obj-$(CONFIG_ATH79_MACH_PB44)			+= mach-pb44.o
++obj-$(CONFIG_ATH79_MACH_PINEAPPLE_NANO)		+= mach-pineapple-nano.o
++obj-$(CONFIG_ATH79_MACH_PINEAPPLE_TETRA)	+= mach-pineapple-tetra.o
+ obj-$(CONFIG_ATH79_MACH_QIHOO_C301)		+= mach-qihoo-c301.o
+ obj-$(CONFIG_ATH79_MACH_R6100)			+= mach-r6100.o
+ obj-$(CONFIG_ATH79_MACH_RB2011)			+= mach-rb2011.o
+diff --git a/target/linux/ar71xx/files/arch/mips/ath79/machtypes.h b/target/linux/ar71xx/files/arch/mips/ath79/machtypes.h
+index a12685cd11..728533de40 100644
+--- a/arch/mips/ath79/machtypes.h
++++ b/arch/mips/ath79/machtypes.h
+@@ -146,6 +146,8 @@ enum ath79_mach_type {
+ 	ATH79_MACH_ONION_OMEGA,			/* ONION OMEGA */
+ 	ATH79_MACH_PB42,			/* Atheros PB42 */
+ 	ATH79_MACH_PB44,			/* Atheros PB44 reference board */
++	ATH79_MACH_PINEAPPLE_NANO,		/* Hak5 WiFi Pineapple NANO */
++	ATH79_MACH_PINEAPPLE_TETRA,		/* Hak5 WiFi Pineapple TETRA */
+ 	ATH79_MACH_QIHOO_C301,			/* Qihoo 360 C301 */
+ 	ATH79_MACH_R6100,			/* NETGEAR R6100 */
+ 	ATH79_MACH_RB_2011G,			/* Mikrotik RouterBOARD 2011UAS-2HnD */

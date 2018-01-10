@@ -175,6 +175,9 @@ tplink_board_detect() {
 	"3C0001"*)
 		model="OOLITE"
 		;;
+	"4e414e4f"*)
+		model="pineapple-nano"
+		;;
 	"3C0002"*)
 		model="MINIBOX_V1"
 		;;
@@ -1117,6 +1120,12 @@ ar71xx_board_detect() {
 		;;
 	*WLAE-AG300N)
 		name="wlae-ag300n"
+		;;
+	*"WiFi Pineapple NANO")
+		name="pineapple-nano"
+		;;
+	*"WiFi Pineapple TETRA")
+		name="pineapple-tetra"
 		;;
 	*"UniFiAP Outdoor")
 		name="unifi-outdoor"

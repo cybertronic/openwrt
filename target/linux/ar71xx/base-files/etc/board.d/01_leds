@@ -433,6 +433,14 @@ om5p-ac)
 	ucidef_set_led_default "wlan-yellow" "WLAN (yellow)" "om5pac:yellow:wifi" "0"
 	ucidef_set_led_default "wlan-green" "WLAN (green)" "om5pac:green:wifi" "0"
 	;;
+pineapple-nano)
+	ucidef_set_led_netdev "wlan0" "WLAN" "nano:blue" "wlan0"
+	;;
+pineapple-tetra)
+ 	ucidef_set_led_netdev "eth0" "ETH0" "tetra:yellow" "eth0"
+  	ucidef_set_led_netdev "wlan0" "WLAN0" "tetra:blue" "wlan0"
+   	ucidef_set_led_netdev "wlan1mon" "WLAN1MON" "tetra:red" "wlan1mon"
+    	;;
 om5p-acv2)
 	ucidef_set_led_default "wlan-red" "WLAN (red)" "om5pac:red:wifi" "0"
 	ucidef_set_led_default "wlan-yellow" "WLAN (yellow)" "om5pac:yellow:wifi" "0"

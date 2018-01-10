@@ -373,6 +373,7 @@ platform_check_image() {
 	omy-x1|\
 	onion-omega|\
 	oolite|\
+	pineapple-nano|\
 	re450|\
 	smart-300|\
 	som9331|\
@@ -481,7 +482,8 @@ platform_check_image() {
 	nbg6716|\
 	r6100|\
 	wndr3700v4|\
-	wndr4300)
+	wndr4300 | \
+	pineapple-tetra)
 		nand_do_platform_check $board $1
 		return $?
 		;;

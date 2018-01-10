@@ -115,6 +115,7 @@ ar71xx_setup_interfaces()
 	tube2h|\
 	unifiac-lite|\
 	wndap360|\
+	pineapple-nano|\
 	wp543)
 		ucidef_set_interface_lan "eth0"
 		;;
@@ -139,6 +140,7 @@ ar71xx_setup_interfaces()
 	tl-wr720n-v3|\
 	tl-wr810n|\
 	wpe72|\
+	pineapple-tetra|\
 	wrtnode2q)
 		ucidef_set_interfaces_lan_wan "eth1" "eth0"
 		;;

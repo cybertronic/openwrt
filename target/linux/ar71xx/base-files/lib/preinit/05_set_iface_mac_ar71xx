@@ -38,7 +38,8 @@ preinit_set_mac_address() {
 			mac_lan=$(mtd_get_mac_binary_ubi board-config 102)
 			[ -n "$mac_lan" ] && ifconfig eth0 hw ether "$mac_lan"
 			;;
-		r6100)
+		r6100 | \
+		pineapple-tetra)
 			mac_lan=$(mtd_get_mac_binary caldata 0)
 			[ -n "$mac_lan" ] && ifconfig eth1 hw ether "$mac_lan"
 			mac_wan=$(mtd_get_mac_binary caldata 6)

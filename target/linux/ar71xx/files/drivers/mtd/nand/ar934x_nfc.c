@@ -415,7 +415,7 @@ ar934x_nfc_get_addr(struct ar934x_nfc *nfc, int column, int page_addr,
 			a0 |= ((page_addr >> 8) & 0xff) << 16;
 			a0 |= ((page_addr >> 16) & 0xff) << 24;
 		} else {
-			a0 = column & 0x0FFF;
+			a0 = column & 0xFFFF;
 			a0 |= (page_addr & 0xffff) << 16;
 
 			if (nfc->addr_count0 > 4)
@@ -1128,6 +1128,7 @@ ar934x_nfc_init_tail(struct mtd_info *mtd)
 	case 16:
 	case 64:
 	case 128:
+	case 224:
 		ar934x_nfc_wr(nfc, AR934X_NFC_REG_SPARE_SIZE, mtd->oobsize);
 		break;
 
@@ -1261,6 +1262,31 @@ static struct nand_ecclayout ar934x_nfc_oob_64_hwecc = {
 	},
 };
 
+/* oob size = 224 */
+static struct nand_ecclayout ar934x_nfc_oob_224_hwecc = {
+	.eccbytes = 56,
+	.eccpos = {
+		20, 21, 22, 23, 24, 25, 26, 27,
+                28, 29, 30, 31, 32, 33, 34, 35,
+                36, 37, 38, 39, 40, 41, 42, 43,
+                44, 45, 46, 47, 48, 49, 50, 51,
+                52, 53, 54, 55, 56, 57, 58, 59,
+                60, 61, 62, 63, 64, 65, 66, 67,
+                68, 69, 70, 71, 72, 73, 74, 75,
+	},
+	.oobfree = {
+		{
+			.offset = 4,
+			.length = 16,
+		},
+		{
+			.offset = 76,
+			.length = 148,
+		},
+	},
+};
+
+
 static int
 ar934x_nfc_setup_hwecc(struct ar934x_nfc *nfc)
 {
@@ -1287,12 +1313,24 @@ ar934x_nfc_setup_hwecc(struct ar934x_nfc *nfc)
 		nand->ecc.layout = &ar934x_nfc_oob_64_hwecc;
 		break;
 
-	default:
-		dev_err(nfc->parent,
-			"hardware ECC is not available for %d byte pages\n",
-			nfc->mtd.writesize);
-		return -EINVAL;
-	}
+	case 4096:
+                nand->options = NAND_NO_SUBPAGE_WRITE;
+                
+                // set this occording to the specific nand flash
+                // please read nand flash datasheet when you fix this
+                nand->ecc.size = 512;
+                nand->ecc.bytes = 7;
+                nand->ecc.strength = 4;
+                nand->ecc.layout = &ar934x_nfc_oob_224_hwecc;
+
+                break;
+
+        default:
+                dev_err(nfc->parent,
+                        "hardware ECC is not available for %d byte pages\n",
+                        nfc->mtd.writesize);
+                return -EINVAL;
+        }
 
 	BUG_ON(!nand->ecc.layout);
 
@@ -1301,6 +1339,11 @@ ar934x_nfc_setup_hwecc(struct ar934x_nfc *nfc)
 		ecc_cap = AR934X_NFC_ECC_CTRL_ECC_CAP_4;
 		ecc_thres = 4;
 		break;
+
+	case 12:
+		ecc_cap = AR934X_NFC_ECC_CTRL_ECC_CAP_12;
+		ecc_thres = 12;
+	    break;
 
 	default:
 		dev_err(nfc->parent, "unsupported ECC strength %u\n",
